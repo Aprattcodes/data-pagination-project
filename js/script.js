@@ -14,9 +14,10 @@ This function will be responsible for rendering the student cards to the page.
 Depending on which page is requested by the user the corresponding students from a given array will be shown on the page.
 */
 
-// let list = data[0];
-// let page = 1;
-const studentListItem = document.querySelector('.student-list');
+
+const studentListHTML = document.querySelector('.student-list');
+const pageListHTML = document.querySelector('.link-list');
+
 let html = `<li class="student-item cf">
           <div class="student-details">
             <img class="avatar" src=${data[0].picture.large} alt="Profile Picture">
@@ -28,27 +29,35 @@ let html = `<li class="student-item cf">
           </div>
         </li>`;
 
-        studentListItem.innerHTML=html;
+let pageNumHTML = `<li>
+               <button type="button" class="active">1</button>
+               </li>
+               <li>
+               <button type="button">2</button>
+               </li>`;
 
-// function showPage (list,page){ //list parameter to represent an array of student objects -- page parameter to represent the requested page number.
-// let startIndex = (page * studentListItem.length) - studentListItem.length; // (page * items per page) - items per page
-// let endIndex = page * studentListItem.length; //page * items per page
+pageListHTML.innerHTML = pageNumHTML;
 
+let i;
+let list = data[i];
 
+function showPage (list) { //list parameter to represent an array of student objects -- page parameter to represent the requested page number.
 
-// for (let i =0; i < students.length; i++){
-  
+   let startIndex = 1; // (page * items per page) - items per page
+   let endIndex = 20; //page * items per page
+   
+   for (let i = 1 ; i < data.length; i++){
+   
+      if (startIndex <= i && i < endIndex){
+         studentListHTML.innerHTML = html;
+      } else {
+         console.log('no');
+      }
+   };
 
-//    if (startIndex <= i){
-//       console.log('yes');
-//    } else {
-//       console.log('no');
-//    }
-// }
+}; 
 
-// } 
-// showPage (list,page);
-
+showPage();
 
 
 
