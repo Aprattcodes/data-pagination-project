@@ -16,27 +16,17 @@ Depending on which page is requested by the user the corresponding students from
 
 
 const studentListHTML = document.querySelector('.student-list');
-const pageListHTML = document.querySelector('.link-list');
-
-let pageNumHTML = `<li>
-               <button type="button" class="active">1</button>
-               </li>
-               <li>
-               <button type="button">2</button>
-               </li>`;
-
-pageListHTML.innerHTML = pageNumHTML;
 let i;
 let list = data[i];
-
+let itemsPerPage = 9;
 
 function showPage (list,page) { //list parameter to represent an array of student objects -- page parameter to represent the requested page number.
-   let itemsPerPage = 10;
-   let startIndex = (page * itemsPerPage) - itemsPerPage; // (page * items per page) - items per page
-   let endIndex = page * itemsPerPage; //page * items per page
+   
+   let startIndex = (page * itemsPerPage) - itemsPerPage;
+   let endIndex = page * itemsPerPage;
    let html = '';
    
-      for (let i = startIndex; i < endIndex && i < data.length; i++) {
+      for (let i = startIndex; i < endIndex && i < data.length; i++) { //loops over list of students
          let studentCard = `<li class="student-item cf">
             <div class="student-details">
                <img class="avatar" src=${data[i].picture.large} alt="Profile Picture">
@@ -62,4 +52,19 @@ This function will create and insert/append the elements needed for the paginati
 
 
 
+function addPagination (list) {
+   let numButtons = Math.ceil(data.length / itemsPerPage) + 1;
+   const pageListHTML = document.querySelector('.link-list');
+   let html = '';
+
+   for (let i = 1; i < numButtons; i++) {
+      let numButton = `<li>
+      <button type="button" class="active">${i}</button>
+      </li>`
+      html += numButton;
+   }
+   pageListHTML.innerHTML = html;
+}
+
+addPagination(list);
 // Call functions
