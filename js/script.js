@@ -18,17 +18,6 @@ Depending on which page is requested by the user the corresponding students from
 const studentListHTML = document.querySelector('.student-list');
 const pageListHTML = document.querySelector('.link-list');
 
-let html = `<li class="student-item cf">
-          <div class="student-details">
-            <img class="avatar" src=${data[0].picture.large} alt="Profile Picture">
-            <h3>${data[0].name.first} , ${data[0].name.last}</h3>
-            <span class="email">${data[0].email}</span>
-          </div>
-          <div class="joined-details">
-            <span class="date">Joined ${data[0].registered.date}</span>
-          </div>
-        </li>`;
-
 let pageNumHTML = `<li>
                <button type="button" class="active">1</button>
                </li>
@@ -37,29 +26,34 @@ let pageNumHTML = `<li>
                </li>`;
 
 pageListHTML.innerHTML = pageNumHTML;
-
 let i;
 let list = data[i];
 
-function showPage (list) { //list parameter to represent an array of student objects -- page parameter to represent the requested page number.
 
-   let startIndex = 1; // (page * items per page) - items per page
-   let endIndex = 20; //page * items per page
+function showPage (list,page) { //list parameter to represent an array of student objects -- page parameter to represent the requested page number.
+   let itemsPerPage = 10;
+   let startIndex = (page * itemsPerPage) - itemsPerPage; // (page * items per page) - items per page
+   let endIndex = page * itemsPerPage; //page * items per page
+   let html = '';
    
-   for (let i = 1 ; i < data.length; i++){
-   
-      if (startIndex <= i && i < endIndex){
-         studentListHTML.innerHTML = html;
-      } else {
-         console.log('no');
+      for (let i = startIndex; i < endIndex && i < data.length; i++) {
+         let studentCard = `<li class="student-item cf">
+            <div class="student-details">
+               <img class="avatar" src=${data[i].picture.large} alt="Profile Picture">
+               <h3>${data[i].name.first} , ${data[i].name.last}</h3>
+               <span class="email">${data[i].email}</span>
+            </div>
+            <div class="joined-details">
+               <span class="date">Joined ${data[i].registered.date}</span>
+            </div>
+         </li>`;
+         html += studentCard;
       }
-   };
 
-}; 
+   studentListHTML.innerHTML = html;
 
-showPage();
-
-
+  }
+  showPage (list,4);
 
 /*
 Create the `addPagination` function
