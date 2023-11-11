@@ -30,7 +30,7 @@ function showPage (list,page) { //list parameter to represent an array of studen
          let studentCard = `<li class="student-item cf">
             <div class="student-details">
                <img class="avatar" src=${data[i].picture.large} alt="Profile Picture">
-               <h3>${data[i].name.first} , ${data[i].name.last}</h3>
+               <h3>${data[i].name.first}, ${data[i].name.last}</h3>
                <span class="email">${data[i].email}</span>
             </div>
             <div class="joined-details">
@@ -50,21 +50,34 @@ Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 */
 
-
-
 function addPagination (list) {
-   let numButtons = Math.ceil(data.length / itemsPerPage) + 1;
+   let numOfButtons = Math.ceil(data.length / itemsPerPage) + 1;
+   //numOfButtons = 6
    const pageListHTML = document.querySelector('.link-list');
    let html = '';
 
-   for (let i = 1; i < numButtons; i++) {
-      let numButton = `<li>
-      <button type="button" class="active">${i}</button>
-      </li>`
-      html += numButton;
-   }
+   for (let i = 1; i < numOfButtons; i++) { //if i is equal to one class is active otherwise empty string
+      let numButton= `<li>
+      <button type="button"${i === 1 ? 'class="active"' : ''}>${i}</button>
+      </li>`;
+      html += numButton;  
+   }  
    pageListHTML.innerHTML = html;
 }
 
 addPagination(list);
+
+const pageListHTML = document.querySelector('.link-list');
+//creates a click event listener on the page button list <ul>
+pageListHTML.addEventListener("click", function () {
+   pageListHTML.classList.add('active')
+});
+document.addEventListener('click', function (event) {
+   if (event.target !== pageListHTML)
+   pageListHTML.classList.remove('active');
+});
+//create a conditional that checks if the clicked element is a button- is called when one button is clicked
+//if a page button is clicked
+
+
 // Call functions
