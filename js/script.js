@@ -13,21 +13,21 @@ This function will create and insert/append the elements needed to display a "pa
 This function will be responsible for rendering the student cards to the page. 
 Depending on which page is requested by the user the corresponding students from a given array will be shown on the page.
 */
-
-
-const studentListHTML = document.querySelector('.student-list');
 let i;
 let list = data[i];
 let itemsPerPage = 9;
 
 function showPage (list,page) { //list parameter to represent an array of student objects -- page parameter to represent the requested page number.
    
-   let startIndex = (page * itemsPerPage) - itemsPerPage;
+   let startIndex = (page * itemsPerPage) - itemsPerPage; //creates two variables to show start and end index
    let endIndex = page * itemsPerPage;
    let html = '';
-   
+   const studentListHTML = document.querySelector('.student-list'); //creates student list variable
+   studentListHTML.innerHTML = html; //use innerhtml ti set HTML content of student list variable to empty string
       for (let i = startIndex; i < endIndex && i < data.length; i++) { //loops over list of students
-         let studentCard = `<li class="student-item cf">
+         let currentIndex = i;
+         if ( startIndex <= currentIndex && currentIndex < endIndex ) { //checks if the current index is greater than or equal to start and less than end
+            let studentCard = `<li class="student-item cf">
             <div class="student-details">
                <img class="avatar" src=${data[i].picture.large} alt="Profile Picture">
                <h3>${data[i].name.first}, ${data[i].name.last}</h3>
@@ -38,12 +38,16 @@ function showPage (list,page) { //list parameter to represent an array of studen
             </div>
          </li>`;
          html += studentCard;
+         
+         } else {
+            console.log("No students availible.")
+         }
+         
       }
 
-   studentListHTML.innerHTML = html;
+   studentListHTML.innerHTML = html; //sets html content
 
   }
-  showPage (list,4);
 
 /*
 Create the `addPagination` function
@@ -62,22 +66,31 @@ function addPagination (list) {
       </li>`;
       html += numButton;  
    }  
+
    pageListHTML.innerHTML = html;
-}
 
-addPagination(list);
-
-const pageListHTML = document.querySelector('.link-list');
-//creates a click event listener on the page button list <ul>
-pageListHTML.addEventListener("click", function () {
-   pageListHTML.classList.add('active')
-});
-document.addEventListener('click', function (event) {
-   if (event.target !== pageListHTML)
-   pageListHTML.classList.remove('active');
-});
 //create a conditional that checks if the clicked element is a button- is called when one button is clicked
 //if a page button is clicked
 
+const buttons = document.querySelectorAll('button'); //selects all buttons
+
+buttons.forEach((button) => {
+//for each button in buttons
+   button.addEventListener('click', function () { //add click event
+
+      //remove active class from all buttons
+      buttons.forEach((btn) => btn.classList.remove('active')); //for each single button that is not button
+
+      //add active class to clicked button
+      button.classList.add('active');
+
+      //update page
+      showPage(list, parseInt(button.textContent));
+   });
+});
+showPage (list,1);
+}
 
 // Call functions
+
+addPagination(list);
