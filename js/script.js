@@ -88,9 +88,9 @@ buttons.forEach((button) => {
       showPage(list, parseInt(button.textContent));
    });
 });
-showPage (list,1);
+
 }
 
 // Call functions
-
+showPage (list,1);
 addPagination(list);
